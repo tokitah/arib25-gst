@@ -2,17 +2,24 @@
 # Process this file with autoconf to produce a configure script.
 
 # required version of gstreamer and gst-plugins-base
-AC_PREREQ([2.50])
+AC_PREREQ([2.69])
 AC_INIT([FULL-PACKAGE-NAME], [VERSION], [BUG-REPORT-ADDRESS])
 AC_CONFIG_SRCDIR([config.h.in])
 AC_CONFIG_HEADERS([config.h])
 AC_CONFIG_MACRO_DIR([m4])
 
-AM_INIT_AUTOMAKE([1.9])
+AM_INIT_AUTOMAKE([foreign])
 
 # Checks for programs.
 AC_PROG_CXX
+AC_PROG_AWK
 AC_PROG_CC
+AC_PROG_CPP
+AC_PROG_INSTALL
+AC_PROG_LN_S
+AC_PROG_MAKE_SET
+AC_PROG_MKDIR_P
+AM_PROG_CC_C_O
 
 # Checks for libraries.
 
@@ -36,13 +43,13 @@ AC_CHECK_FUNCS([gettimeofday memset])
 LT_PREREQ([2.2.6])
 LT_INIT
 
-AC_ARG_ENABLE([arib25-shared],
-  [AS_HELP_STRING([--enable-arib25-shared],
-    [build arib25 shared library. [default=no]])],
-  [arib25_shared="${enableval}"],
-  [arib25_shared=no]
+AC_ARG_ENABLE([static-lib-only],
+  [AS_HELP_STRING([--enable-static-lib-only],
+    [build only static library. [default=no]])],
+  [static_lib_only="${enableval}"],
+  [static_lib_only=no]
 )
-AM_CONDITIONAL([ARIB25_SHARED],[test x$arib25_shared != xno])
+AM_CONDITIONAL([STATIC_LIB_ONLY],[test x$static_lib_only != xno])
 
 
 AC_CHECK_PROG(HAVE_PKGCONFIG, pkg-config, [ ], [
@@ -78,6 +85,13 @@ PKG_CHECK_MODULES(PCSCLITE, [
 # =======================================================================
 
 GST_REQUIRED=1.0.0
+
+GST_PLUGIN_LDFLAGS="-module -avoid-version -export-symbols-regex '^[_]*gst_plugin_.*' $GST_ALL_LDFLAGS"
+AC_SUBST(GST_PLUGIN_LDFLAGS)
+
+GST_PLUGIN_LIBTOOLFLAGS="--tag=disable-static"
+AC_SUBST(GST_PLUGIN_LIBTOOLFLAGS)
+
 
 PKG_CHECK_MODULES(GST, [
     gstreamer-1.0              >= $GST_REQUIRED
@@ -117,5 +131,6 @@ AC_COMPILE_IFELSE([AC_LANG_PROGRAM([ ], [ ])], [
 ])
  
 AC_CONFIG_FILES([Makefile
+                 gst/Makefile
                  src/Makefile])
 AC_OUTPUT

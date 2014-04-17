@@ -1,16 +1,24 @@
-ARIB25_SRCS = arib_std_b25.c b_cas_card.c multi2.c td.c ts_section_parser.c
+ARIB25_SRCS = arib_std_b25.c b_cas_card.c multi2.c ts_section_parser.c
 ARIB25_CPPFLAGS = -Wall -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 $(PCSCLITE_CFLAGS)
-ARIB25_LDFLAGS = $(PCSCLITE_LDFLAGS)
+ARIB25_LIBADD = $(PCSCLITE_LIBS)
 ARIB25_CFLAGS = -O2 -g -fPIC
 
-if ARIB25_SHARED
-lib_LTLIBRARIES = libarib25.la
-libarib25_la_LDFLAGS = $(ARIB25_LDFLAGS)
-else
+if STATIC_LIB_ONLY
 noinst_LTLIBRARIES = libarib25.la
-libarib25_la_LDFLAGS = $(ARIB25_LDFLAGS) -static
+libarib25_la_LIBADD = $(ARIB25_LIBADD)
+libarib25_la_LDFLAGS = -static
+else
+lib_LTLIBRARIES = libarib25.la
+libarib25_la_LIBADD = $(ARIB25_LIBADD)
 endif
-
 libarib25_la_SOURCES = $(ARIB25_SRCS)
 libarib25_la_CFLAGS = $(ARIB25_CFLAGS)
 libarib25_la_CPPFLAGS = $(ARIB25_CPPFLAGS)
+
+if !STATIC_LIB_ONLY
+bin_PROGRAMS = b25
+b25_SOURCES = $(ARIB25_SRCS) td.c 
+b25_CFLAGS = $(ARIB25_CFLAGS)
+b25_CPPFLAGS = $(ARIB25_CPPFLAGS)
+b25_LDADD = $(ARIB25_LIBADD)
+endif

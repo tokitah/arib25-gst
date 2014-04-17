@@ -14,6 +14,7 @@
 
 @SET_MAKE@
 
+
 VPATH = @srcdir@
 am__is_gnu_make = test -n '$(MAKEFILE_LIST)' && test -n '$(MAKELEVEL)'
 am__make_running_with_option = \
@@ -78,6 +79,7 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
+@STATIC_LIB_ONLY_FALSE@bin_PROGRAMS = b25$(EXEEXT)
 subdir = src
 DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/Makefile.am \
 	$(top_srcdir)/depcomp
@@ -119,12 +121,17 @@ am__uninstall_files_from_dir = { \
     || { echo " ( cd '$$dir' && rm -f" $$files ")"; \
          $(am__cd) "$$dir" && rm -f $$files; }; \
   }
-am__installdirs = "$(DESTDIR)$(libdir)"
+am__installdirs = "$(DESTDIR)$(libdir)" "$(DESTDIR)$(bindir)"
 LTLIBRARIES = $(lib_LTLIBRARIES) $(noinst_LTLIBRARIES)
-libarib25_la_LIBADD =
+am__DEPENDENCIES_1 =
+am__DEPENDENCIES_2 = $(am__DEPENDENCIES_1)
+@STATIC_LIB_ONLY_FALSE@libarib25_la_DEPENDENCIES =  \
+@STATIC_LIB_ONLY_FALSE@	$(am__DEPENDENCIES_2)
+@STATIC_LIB_ONLY_TRUE@libarib25_la_DEPENDENCIES =  \
+@STATIC_LIB_ONLY_TRUE@	$(am__DEPENDENCIES_2)
 am__objects_1 = libarib25_la-arib_std_b25.lo \
 	libarib25_la-b_cas_card.lo libarib25_la-multi2.lo \
-	libarib25_la-td.lo libarib25_la-ts_section_parser.lo
+	libarib25_la-ts_section_parser.lo
 am_libarib25_la_OBJECTS = $(am__objects_1)
 libarib25_la_OBJECTS = $(am_libarib25_la_OBJECTS)
 AM_V_lt = $(am__v_lt_@AM_V@)
@@ -134,8 +141,20 @@ am__v_lt_1 =
 libarib25_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) \
 	$(LIBTOOLFLAGS) --mode=link $(CCLD) $(libarib25_la_CFLAGS) \
 	$(CFLAGS) $(libarib25_la_LDFLAGS) $(LDFLAGS) -o $@
-@ARIB25_SHARED_FALSE@am_libarib25_la_rpath =
-@ARIB25_SHARED_TRUE@am_libarib25_la_rpath = -rpath $(libdir)
+@STATIC_LIB_ONLY_FALSE@am_libarib25_la_rpath = -rpath $(libdir)
+@STATIC_LIB_ONLY_TRUE@am_libarib25_la_rpath =
+PROGRAMS = $(bin_PROGRAMS)
+am__b25_SOURCES_DIST = arib_std_b25.c b_cas_card.c multi2.c \
+	ts_section_parser.c td.c
+am__objects_2 = b25-arib_std_b25.$(OBJEXT) b25-b_cas_card.$(OBJEXT) \
+	b25-multi2.$(OBJEXT) b25-ts_section_parser.$(OBJEXT)
+@STATIC_LIB_ONLY_FALSE@am_b25_OBJECTS = $(am__objects_2) \
+@STATIC_LIB_ONLY_FALSE@	b25-td.$(OBJEXT)
+b25_OBJECTS = $(am_b25_OBJECTS)
+@STATIC_LIB_ONLY_FALSE@b25_DEPENDENCIES = $(am__DEPENDENCIES_2)
+b25_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) \
+	$(LIBTOOLFLAGS) --mode=link $(CCLD) $(b25_CFLAGS) $(CFLAGS) \
+	$(AM_LDFLAGS) $(LDFLAGS) -o $@
 AM_V_P = $(am__v_P_@AM_V@)
 am__v_P_ = $(am__v_P_@AM_DEFAULT_V@)
 am__v_P_0 = false
@@ -170,8 +189,8 @@ AM_V_CCLD = $(am__v_CCLD_@AM_V@)
 am__v_CCLD_ = $(am__v_CCLD_@AM_DEFAULT_V@)
 am__v_CCLD_0 = @echo "  CCLD    " $@;
 am__v_CCLD_1 = 
-SOURCES = $(libarib25_la_SOURCES)
-DIST_SOURCES = $(libarib25_la_SOURCES)
+SOURCES = $(libarib25_la_SOURCES) $(b25_SOURCES)
+DIST_SOURCES = $(libarib25_la_SOURCES) $(am__b25_SOURCES_DIST)
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
     n|no|NO) false;; \
@@ -229,6 +248,8 @@ FGREP = @FGREP@
 GREP = @GREP@
 GST_CFLAGS = @GST_CFLAGS@
 GST_LIBS = @GST_LIBS@
+GST_PLUGIN_LDFLAGS = @GST_PLUGIN_LDFLAGS@
+GST_PLUGIN_LIBTOOLFLAGS = @GST_PLUGIN_LIBTOOLFLAGS@
 HAVE_PKGCONFIG = @HAVE_PKGCONFIG@
 INSTALL = @INSTALL@
 INSTALL_DATA = @INSTALL_DATA@
@@ -326,17 +347,22 @@ target_alias = @target_alias@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-ARIB25_SRCS = arib_std_b25.c b_cas_card.c multi2.c td.c ts_section_parser.c
+ARIB25_SRCS = arib_std_b25.c b_cas_card.c multi2.c ts_section_parser.c
 ARIB25_CPPFLAGS = -Wall -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 $(PCSCLITE_CFLAGS)
-ARIB25_LDFLAGS = $(PCSCLITE_LDFLAGS)
+ARIB25_LIBADD = $(PCSCLITE_LIBS)
 ARIB25_CFLAGS = -O2 -g -fPIC
-@ARIB25_SHARED_TRUE@lib_LTLIBRARIES = libarib25.la
-@ARIB25_SHARED_FALSE@libarib25_la_LDFLAGS = $(ARIB25_LDFLAGS) -static
-@ARIB25_SHARED_TRUE@libarib25_la_LDFLAGS = $(ARIB25_LDFLAGS)
-@ARIB25_SHARED_FALSE@noinst_LTLIBRARIES = libarib25.la
+@STATIC_LIB_ONLY_TRUE@noinst_LTLIBRARIES = libarib25.la
+@STATIC_LIB_ONLY_FALSE@libarib25_la_LIBADD = $(ARIB25_LIBADD)
+@STATIC_LIB_ONLY_TRUE@libarib25_la_LIBADD = $(ARIB25_LIBADD)
+@STATIC_LIB_ONLY_TRUE@libarib25_la_LDFLAGS = -static
+@STATIC_LIB_ONLY_FALSE@lib_LTLIBRARIES = libarib25.la
 libarib25_la_SOURCES = $(ARIB25_SRCS)
 libarib25_la_CFLAGS = $(ARIB25_CFLAGS)
 libarib25_la_CPPFLAGS = $(ARIB25_CPPFLAGS)
+@STATIC_LIB_ONLY_FALSE@b25_SOURCES = $(ARIB25_SRCS) td.c 
+@STATIC_LIB_ONLY_FALSE@b25_CFLAGS = $(ARIB25_CFLAGS)
+@STATIC_LIB_ONLY_FALSE@b25_CPPFLAGS = $(ARIB25_CPPFLAGS)
+@STATIC_LIB_ONLY_FALSE@b25_LDADD = $(ARIB25_LIBADD)
 all: all-am
 
 .SUFFIXES:
@@ -350,9 +376,9 @@ $(srcdir)/Makefile.in:  $(srcdir)/Makefile.am  $(am__configure_deps)
 	      exit 1;; \
 	  esac; \
 	done; \
-	echo ' cd $(top_srcdir) && $(AUTOMAKE) --gnu src/Makefile'; \
+	echo ' cd $(top_srcdir) && $(AUTOMAKE) --foreign src/Makefile'; \
 	$(am__cd) $(top_srcdir) && \
-	  $(AUTOMAKE) --gnu src/Makefile
+	  $(AUTOMAKE) --foreign src/Makefile
 .PRECIOUS: Makefile
 Makefile: $(srcdir)/Makefile.in $(top_builddir)/config.status
 	@case '$?' in \
@@ -420,6 +446,59 @@ clean-noinstLTLIBRARIES:
 
 libarib25.la: $(libarib25_la_OBJECTS) $(libarib25_la_DEPENDENCIES) $(EXTRA_libarib25_la_DEPENDENCIES) 
 	$(AM_V_CCLD)$(libarib25_la_LINK) $(am_libarib25_la_rpath) $(libarib25_la_OBJECTS) $(libarib25_la_LIBADD) $(LIBS)
+install-binPROGRAMS: $(bin_PROGRAMS)
+	@$(NORMAL_INSTALL)
+	@list='$(bin_PROGRAMS)'; test -n "$(bindir)" || list=; \
+	if test -n "$$list"; then \
+	  echo " $(MKDIR_P) '$(DESTDIR)$(bindir)'"; \
+	  $(MKDIR_P) "$(DESTDIR)$(bindir)" || exit 1; \
+	fi; \
+	for p in $$list; do echo "$$p $$p"; done | \
+	sed 's/$(EXEEXT)$$//' | \
+	while read p p1; do if test -f $$p \
+	 || test -f $$p1 \
+	  ; then echo "$$p"; echo "$$p"; else :; fi; \
+	done | \
+	sed -e 'p;s,.*/,,;n;h' \
+	    -e 's|.*|.|' \
+	    -e 'p;x;s,.*/,,;s/$(EXEEXT)$$//;$(transform);s/$$/$(EXEEXT)/' | \
+	sed 'N;N;N;s,\n, ,g' | \
+	$(AWK) 'BEGIN { files["."] = ""; dirs["."] = 1 } \
+	  { d=$$3; if (dirs[d] != 1) { print "d", d; dirs[d] = 1 } \
+	    if ($$2 == $$4) files[d] = files[d] " " $$1; \
+	    else { print "f", $$3 "/" $$4, $$1; } } \
+	  END { for (d in files) print "f", d, files[d] }' | \
+	while read type dir files; do \
+	    if test "$$dir" = .; then dir=; else dir=/$$dir; fi; \
+	    test -z "$$files" || { \
+	    echo " $(INSTALL_PROGRAM_ENV) $(LIBTOOL) $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=install $(INSTALL_PROGRAM) $$files '$(DESTDIR)$(bindir)$$dir'"; \
+	    $(INSTALL_PROGRAM_ENV) $(LIBTOOL) $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=install $(INSTALL_PROGRAM) $$files "$(DESTDIR)$(bindir)$$dir" || exit $$?; \
+	    } \
+	; done
+
+uninstall-binPROGRAMS:
+	@$(NORMAL_UNINSTALL)
+	@list='$(bin_PROGRAMS)'; test -n "$(bindir)" || list=; \
+	files=`for p in $$list; do echo "$$p"; done | \
+	  sed -e 'h;s,^.*/,,;s/$(EXEEXT)$$//;$(transform)' \
+	      -e 's/$$/$(EXEEXT)/' \
+	`; \
+	test -n "$$list" || exit 0; \
+	echo " ( cd '$(DESTDIR)$(bindir)' && rm -f" $$files ")"; \
+	cd "$(DESTDIR)$(bindir)" && rm -f $$files
+
+clean-binPROGRAMS:
+	@list='$(bin_PROGRAMS)'; test -n "$$list" || exit 0; \
+	echo " rm -f" $$list; \
+	rm -f $$list || exit $$?; \
+	test -n "$(EXEEXT)" || exit 0; \
+	list=`for p in $$list; do echo "$$p"; done | sed 's/$(EXEEXT)$$//'`; \
+	echo " rm -f" $$list; \
+	rm -f $$list
+
+b25$(EXEEXT): $(b25_OBJECTS) $(b25_DEPENDENCIES) $(EXTRA_b25_DEPENDENCIES) 
+	@rm -f b25$(EXEEXT)
+	$(AM_V_CCLD)$(b25_LINK) $(b25_OBJECTS) $(b25_LDADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
@@ -427,10 +506,14 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/b25-arib_std_b25.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/b25-b_cas_card.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/b25-multi2.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/b25-td.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/b25-ts_section_parser.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libarib25_la-arib_std_b25.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libarib25_la-b_cas_card.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libarib25_la-multi2.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libarib25_la-td.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libarib25_la-ts_section_parser.Plo@am__quote@
 
 .c.o:
@@ -475,19 +558,82 @@ libarib25_la-multi2.lo: multi2.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libarib25_la_CPPFLAGS) $(CPPFLAGS) $(libarib25_la_CFLAGS) $(CFLAGS) -c -o libarib25_la-multi2.lo `test -f 'multi2.c' || echo '$(srcdir)/'`multi2.c
 
-libarib25_la-td.lo: td.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libarib25_la_CPPFLAGS) $(CPPFLAGS) $(libarib25_la_CFLAGS) $(CFLAGS) -MT libarib25_la-td.lo -MD -MP -MF $(DEPDIR)/libarib25_la-td.Tpo -c -o libarib25_la-td.lo `test -f 'td.c' || echo '$(srcdir)/'`td.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libarib25_la-td.Tpo $(DEPDIR)/libarib25_la-td.Plo
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='td.c' object='libarib25_la-td.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libarib25_la_CPPFLAGS) $(CPPFLAGS) $(libarib25_la_CFLAGS) $(CFLAGS) -c -o libarib25_la-td.lo `test -f 'td.c' || echo '$(srcdir)/'`td.c
-
 libarib25_la-ts_section_parser.lo: ts_section_parser.c
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libarib25_la_CPPFLAGS) $(CPPFLAGS) $(libarib25_la_CFLAGS) $(CFLAGS) -MT libarib25_la-ts_section_parser.lo -MD -MP -MF $(DEPDIR)/libarib25_la-ts_section_parser.Tpo -c -o libarib25_la-ts_section_parser.lo `test -f 'ts_section_parser.c' || echo '$(srcdir)/'`ts_section_parser.c
 @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libarib25_la-ts_section_parser.Tpo $(DEPDIR)/libarib25_la-ts_section_parser.Plo
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='ts_section_parser.c' object='libarib25_la-ts_section_parser.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libarib25_la_CPPFLAGS) $(CPPFLAGS) $(libarib25_la_CFLAGS) $(CFLAGS) -c -o libarib25_la-ts_section_parser.lo `test -f 'ts_section_parser.c' || echo '$(srcdir)/'`ts_section_parser.c
+
+b25-arib_std_b25.o: arib_std_b25.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(b25_CPPFLAGS) $(CPPFLAGS) $(b25_CFLAGS) $(CFLAGS) -MT b25-arib_std_b25.o -MD -MP -MF $(DEPDIR)/b25-arib_std_b25.Tpo -c -o b25-arib_std_b25.o `test -f 'arib_std_b25.c' || echo '$(srcdir)/'`arib_std_b25.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/b25-arib_std_b25.Tpo $(DEPDIR)/b25-arib_std_b25.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='arib_std_b25.c' object='b25-arib_std_b25.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(b25_CPPFLAGS) $(CPPFLAGS) $(b25_CFLAGS) $(CFLAGS) -c -o b25-arib_std_b25.o `test -f 'arib_std_b25.c' || echo '$(srcdir)/'`arib_std_b25.c
+
+b25-arib_std_b25.obj: arib_std_b25.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(b25_CPPFLAGS) $(CPPFLAGS) $(b25_CFLAGS) $(CFLAGS) -MT b25-arib_std_b25.obj -MD -MP -MF $(DEPDIR)/b25-arib_std_b25.Tpo -c -o b25-arib_std_b25.obj `if test -f 'arib_std_b25.c'; then $(CYGPATH_W) 'arib_std_b25.c'; else $(CYGPATH_W) '$(srcdir)/arib_std_b25.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/b25-arib_std_b25.Tpo $(DEPDIR)/b25-arib_std_b25.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='arib_std_b25.c' object='b25-arib_std_b25.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(b25_CPPFLAGS) $(CPPFLAGS) $(b25_CFLAGS) $(CFLAGS) -c -o b25-arib_std_b25.obj `if test -f 'arib_std_b25.c'; then $(CYGPATH_W) 'arib_std_b25.c'; else $(CYGPATH_W) '$(srcdir)/arib_std_b25.c'; fi`
+
+b25-b_cas_card.o: b_cas_card.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(b25_CPPFLAGS) $(CPPFLAGS) $(b25_CFLAGS) $(CFLAGS) -MT b25-b_cas_card.o -MD -MP -MF $(DEPDIR)/b25-b_cas_card.Tpo -c -o b25-b_cas_card.o `test -f 'b_cas_card.c' || echo '$(srcdir)/'`b_cas_card.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/b25-b_cas_card.Tpo $(DEPDIR)/b25-b_cas_card.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='b_cas_card.c' object='b25-b_cas_card.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(b25_CPPFLAGS) $(CPPFLAGS) $(b25_CFLAGS) $(CFLAGS) -c -o b25-b_cas_card.o `test -f 'b_cas_card.c' || echo '$(srcdir)/'`b_cas_card.c
+
+b25-b_cas_card.obj: b_cas_card.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(b25_CPPFLAGS) $(CPPFLAGS) $(b25_CFLAGS) $(CFLAGS) -MT b25-b_cas_card.obj -MD -MP -MF $(DEPDIR)/b25-b_cas_card.Tpo -c -o b25-b_cas_card.obj `if test -f 'b_cas_card.c'; then $(CYGPATH_W) 'b_cas_card.c'; else $(CYGPATH_W) '$(srcdir)/b_cas_card.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/b25-b_cas_card.Tpo $(DEPDIR)/b25-b_cas_card.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='b_cas_card.c' object='b25-b_cas_card.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(b25_CPPFLAGS) $(CPPFLAGS) $(b25_CFLAGS) $(CFLAGS) -c -o b25-b_cas_card.obj `if test -f 'b_cas_card.c'; then $(CYGPATH_W) 'b_cas_card.c'; else $(CYGPATH_W) '$(srcdir)/b_cas_card.c'; fi`
+
+b25-multi2.o: multi2.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(b25_CPPFLAGS) $(CPPFLAGS) $(b25_CFLAGS) $(CFLAGS) -MT b25-multi2.o -MD -MP -MF $(DEPDIR)/b25-multi2.Tpo -c -o b25-multi2.o `test -f 'multi2.c' || echo '$(srcdir)/'`multi2.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/b25-multi2.Tpo $(DEPDIR)/b25-multi2.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='multi2.c' object='b25-multi2.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(b25_CPPFLAGS) $(CPPFLAGS) $(b25_CFLAGS) $(CFLAGS) -c -o b25-multi2.o `test -f 'multi2.c' || echo '$(srcdir)/'`multi2.c
+
+b25-multi2.obj: multi2.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(b25_CPPFLAGS) $(CPPFLAGS) $(b25_CFLAGS) $(CFLAGS) -MT b25-multi2.obj -MD -MP -MF $(DEPDIR)/b25-multi2.Tpo -c -o b25-multi2.obj `if test -f 'multi2.c'; then $(CYGPATH_W) 'multi2.c'; else $(CYGPATH_W) '$(srcdir)/multi2.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/b25-multi2.Tpo $(DEPDIR)/b25-multi2.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='multi2.c' object='b25-multi2.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(b25_CPPFLAGS) $(CPPFLAGS) $(b25_CFLAGS) $(CFLAGS) -c -o b25-multi2.obj `if test -f 'multi2.c'; then $(CYGPATH_W) 'multi2.c'; else $(CYGPATH_W) '$(srcdir)/multi2.c'; fi`
+
+b25-ts_section_parser.o: ts_section_parser.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(b25_CPPFLAGS) $(CPPFLAGS) $(b25_CFLAGS) $(CFLAGS) -MT b25-ts_section_parser.o -MD -MP -MF $(DEPDIR)/b25-ts_section_parser.Tpo -c -o b25-ts_section_parser.o `test -f 'ts_section_parser.c' || echo '$(srcdir)/'`ts_section_parser.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/b25-ts_section_parser.Tpo $(DEPDIR)/b25-ts_section_parser.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='ts_section_parser.c' object='b25-ts_section_parser.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(b25_CPPFLAGS) $(CPPFLAGS) $(b25_CFLAGS) $(CFLAGS) -c -o b25-ts_section_parser.o `test -f 'ts_section_parser.c' || echo '$(srcdir)/'`ts_section_parser.c
+
+b25-ts_section_parser.obj: ts_section_parser.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(b25_CPPFLAGS) $(CPPFLAGS) $(b25_CFLAGS) $(CFLAGS) -MT b25-ts_section_parser.obj -MD -MP -MF $(DEPDIR)/b25-ts_section_parser.Tpo -c -o b25-ts_section_parser.obj `if test -f 'ts_section_parser.c'; then $(CYGPATH_W) 'ts_section_parser.c'; else $(CYGPATH_W) '$(srcdir)/ts_section_parser.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/b25-ts_section_parser.Tpo $(DEPDIR)/b25-ts_section_parser.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='ts_section_parser.c' object='b25-ts_section_parser.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(b25_CPPFLAGS) $(CPPFLAGS) $(b25_CFLAGS) $(CFLAGS) -c -o b25-ts_section_parser.obj `if test -f 'ts_section_parser.c'; then $(CYGPATH_W) 'ts_section_parser.c'; else $(CYGPATH_W) '$(srcdir)/ts_section_parser.c'; fi`
+
+b25-td.o: td.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(b25_CPPFLAGS) $(CPPFLAGS) $(b25_CFLAGS) $(CFLAGS) -MT b25-td.o -MD -MP -MF $(DEPDIR)/b25-td.Tpo -c -o b25-td.o `test -f 'td.c' || echo '$(srcdir)/'`td.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/b25-td.Tpo $(DEPDIR)/b25-td.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='td.c' object='b25-td.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(b25_CPPFLAGS) $(CPPFLAGS) $(b25_CFLAGS) $(CFLAGS) -c -o b25-td.o `test -f 'td.c' || echo '$(srcdir)/'`td.c
+
+b25-td.obj: td.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(b25_CPPFLAGS) $(CPPFLAGS) $(b25_CFLAGS) $(CFLAGS) -MT b25-td.obj -MD -MP -MF $(DEPDIR)/b25-td.Tpo -c -o b25-td.obj `if test -f 'td.c'; then $(CYGPATH_W) 'td.c'; else $(CYGPATH_W) '$(srcdir)/td.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/b25-td.Tpo $(DEPDIR)/b25-td.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='td.c' object='b25-td.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(b25_CPPFLAGS) $(CPPFLAGS) $(b25_CFLAGS) $(CFLAGS) -c -o b25-td.obj `if test -f 'td.c'; then $(CYGPATH_W) 'td.c'; else $(CYGPATH_W) '$(srcdir)/td.c'; fi`
 
 mostlyclean-libtool:
 	-rm -f *.lo
@@ -579,9 +725,11 @@ distdir: $(DISTFILES)
 	done
 check-am: all-am
 check: check-am
-all-am: Makefile $(LTLIBRARIES)
+all-am: Makefile $(LTLIBRARIES) $(PROGRAMS)
+install-binPROGRAMS: install-libLTLIBRARIES
+
 installdirs:
-	for dir in "$(DESTDIR)$(libdir)"; do \
+	for dir in "$(DESTDIR)$(libdir)" "$(DESTDIR)$(bindir)"; do \
 	  test -z "$$dir" || $(MKDIR_P) "$$dir"; \
 	done
 install: install-am
@@ -616,8 +764,8 @@ maintainer-clean-generic:
 	@echo "it deletes files that may require special tools to rebuild."
 clean: clean-am
 
-clean-am: clean-generic clean-libLTLIBRARIES clean-libtool \
-	clean-noinstLTLIBRARIES mostlyclean-am
+clean-am: clean-binPROGRAMS clean-generic clean-libLTLIBRARIES \
+	clean-libtool clean-noinstLTLIBRARIES mostlyclean-am
 
 distclean: distclean-am
 	-rm -rf ./$(DEPDIR)
@@ -643,7 +791,7 @@ install-dvi: install-dvi-am
 
 install-dvi-am:
 
-install-exec-am: install-libLTLIBRARIES
+install-exec-am: install-binPROGRAMS install-libLTLIBRARIES
 
 install-html: install-html-am
 
@@ -683,15 +831,16 @@ ps: ps-am
 
 ps-am:
 
-uninstall-am: uninstall-libLTLIBRARIES
+uninstall-am: uninstall-binPROGRAMS uninstall-libLTLIBRARIES
 
 .MAKE: install-am install-strip
 
-.PHONY: CTAGS GTAGS TAGS all all-am check check-am clean clean-generic \
-	clean-libLTLIBRARIES clean-libtool clean-noinstLTLIBRARIES \
-	cscopelist-am ctags ctags-am distclean distclean-compile \
-	distclean-generic distclean-libtool distclean-tags distdir dvi \
-	dvi-am html html-am info info-am install install-am \
+.PHONY: CTAGS GTAGS TAGS all all-am check check-am clean \
+	clean-binPROGRAMS clean-generic clean-libLTLIBRARIES \
+	clean-libtool clean-noinstLTLIBRARIES cscopelist-am ctags \
+	ctags-am distclean distclean-compile distclean-generic \
+	distclean-libtool distclean-tags distdir dvi dvi-am html \
+	html-am info info-am install install-am install-binPROGRAMS \
 	install-data install-data-am install-dvi install-dvi-am \
 	install-exec install-exec-am install-html install-html-am \
 	install-info install-info-am install-libLTLIBRARIES \
@@ -700,7 +849,7 @@ uninstall-am: uninstall-libLTLIBRARIES
 	installdirs maintainer-clean maintainer-clean-generic \
 	mostlyclean mostlyclean-compile mostlyclean-generic \
 	mostlyclean-libtool pdf pdf-am ps ps-am tags tags-am uninstall \
-	uninstall-am uninstall-libLTLIBRARIES
+	uninstall-am uninstall-binPROGRAMS uninstall-libLTLIBRARIES
 
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.

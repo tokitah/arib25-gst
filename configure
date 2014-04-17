@@ -647,8 +647,10 @@ PKG_CONFIG_LIBDIR
 PKG_CONFIG_PATH
 PKG_CONFIG
 HAVE_PKGCONFIG
-STATIC_LIB_ONLY_FALSE
-STATIC_LIB_ONLY_TRUE
+INSTALL_B25_FALSE
+INSTALL_B25_TRUE
+INSTALL_LIBARIB25_FALSE
+INSTALL_LIBARIB25_TRUE
 CXXCPP
 OTOOL64
 OTOOL
@@ -781,7 +783,8 @@ enable_fast_install
 with_gnu_ld
 with_sysroot
 enable_libtool_lock
-enable_static_lib_only
+enable_install_libarib25
+enable_install_b25
 '
       ac_precious_vars='build_alias
 host_alias
@@ -1433,8 +1436,9 @@ Optional Features:
   --enable-fast-install[=PKGS]
                           optimize for fast installation [default=yes]
   --disable-libtool-lock  avoid locking (might break parallel builds)
-  --enable-static-lib-only
-                          build only static library. [default=no]
+  --enable-install-libarib25
+                          Install libarib25 library. [default=yes]
+  --enable-install-b25    Install b25 command. [default=yes]
 
 Optional Packages:
   --with-PACKAGE[=ARG]    use PACKAGE [ARG=yes]
@@ -15616,20 +15620,37 @@ ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 
 
-# Check whether --enable-static-lib-only was given.
-if test "${enable_static_lib_only+set}" = set; then :
-  enableval=$enable_static_lib_only; static_lib_only="${enableval}"
+# Check whether --enable-install-libarib25 was given.
+if test "${enable_install_libarib25+set}" = set; then :
+  enableval=$enable_install_libarib25; install_libarib25="${enableval}"
 else
-  static_lib_only=no
+  install_libarib25=yes
 
 fi
 
- if test x$static_lib_only != xno; then
-  STATIC_LIB_ONLY_TRUE=
-  STATIC_LIB_ONLY_FALSE='#'
+ if test x$install_libarib25 != xno; then
+  INSTALL_LIBARIB25_TRUE=
+  INSTALL_LIBARIB25_FALSE='#'
 else
-  STATIC_LIB_ONLY_TRUE='#'
-  STATIC_LIB_ONLY_FALSE=
+  INSTALL_LIBARIB25_TRUE='#'
+  INSTALL_LIBARIB25_FALSE=
+fi
+
+
+# Check whether --enable-install-b25 was given.
+if test "${enable_install_b25+set}" = set; then :
+  enableval=$enable_install_b25; install_b25="${enableval}"
+else
+  install_b25=yes
+
+fi
+
+ if test x$install_b25 != xno; then
+  INSTALL_B25_TRUE=
+  INSTALL_B25_FALSE='#'
+else
+  INSTALL_B25_TRUE='#'
+  INSTALL_B25_FALSE=
 fi
 
 
@@ -16230,8 +16251,12 @@ if test -z "${am__fastdepCC_TRUE}" && test -z "${am__fastdepCC_FALSE}"; then
   as_fn_error $? "conditional \"am__fastdepCC\" was never defined.
 Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
-if test -z "${STATIC_LIB_ONLY_TRUE}" && test -z "${STATIC_LIB_ONLY_FALSE}"; then
-  as_fn_error $? "conditional \"STATIC_LIB_ONLY\" was never defined.
+if test -z "${INSTALL_LIBARIB25_TRUE}" && test -z "${INSTALL_LIBARIB25_FALSE}"; then
+  as_fn_error $? "conditional \"INSTALL_LIBARIB25\" was never defined.
+Usually this means the macro was only invoked conditionally." "$LINENO" 5
+fi
+if test -z "${INSTALL_B25_TRUE}" && test -z "${INSTALL_B25_FALSE}"; then
+  as_fn_error $? "conditional \"INSTALL_B25\" was never defined.
 Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
 

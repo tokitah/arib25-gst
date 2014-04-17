@@ -79,7 +79,8 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
-@STATIC_LIB_ONLY_FALSE@bin_PROGRAMS = b25$(EXEEXT)
+@INSTALL_LIBARIB25_TRUE@bin_PROGRAMS = b25$(EXEEXT)
+@INSTALL_LIBARIB25_FALSE@noinst_PROGRAMS = b25$(EXEEXT)
 subdir = src
 DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/Makefile.am \
 	$(top_srcdir)/depcomp
@@ -125,10 +126,7 @@ am__installdirs = "$(DESTDIR)$(libdir)" "$(DESTDIR)$(bindir)"
 LTLIBRARIES = $(lib_LTLIBRARIES) $(noinst_LTLIBRARIES)
 am__DEPENDENCIES_1 =
 am__DEPENDENCIES_2 = $(am__DEPENDENCIES_1)
-@STATIC_LIB_ONLY_FALSE@libarib25_la_DEPENDENCIES =  \
-@STATIC_LIB_ONLY_FALSE@	$(am__DEPENDENCIES_2)
-@STATIC_LIB_ONLY_TRUE@libarib25_la_DEPENDENCIES =  \
-@STATIC_LIB_ONLY_TRUE@	$(am__DEPENDENCIES_2)
+libarib25_la_DEPENDENCIES = $(am__DEPENDENCIES_2)
 am__objects_1 = libarib25_la-arib_std_b25.lo \
 	libarib25_la-b_cas_card.lo libarib25_la-multi2.lo \
 	libarib25_la-ts_section_parser.lo
@@ -140,18 +138,15 @@ am__v_lt_0 = --silent
 am__v_lt_1 = 
 libarib25_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) \
 	$(LIBTOOLFLAGS) --mode=link $(CCLD) $(libarib25_la_CFLAGS) \
-	$(CFLAGS) $(libarib25_la_LDFLAGS) $(LDFLAGS) -o $@
-@STATIC_LIB_ONLY_FALSE@am_libarib25_la_rpath = -rpath $(libdir)
-@STATIC_LIB_ONLY_TRUE@am_libarib25_la_rpath =
-PROGRAMS = $(bin_PROGRAMS)
-am__b25_SOURCES_DIST = arib_std_b25.c b_cas_card.c multi2.c \
-	ts_section_parser.c td.c
+	$(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
+@INSTALL_LIBARIB25_FALSE@am_libarib25_la_rpath =
+@INSTALL_LIBARIB25_TRUE@am_libarib25_la_rpath = -rpath $(libdir)
+PROGRAMS = $(bin_PROGRAMS) $(noinst_PROGRAMS)
 am__objects_2 = b25-arib_std_b25.$(OBJEXT) b25-b_cas_card.$(OBJEXT) \
 	b25-multi2.$(OBJEXT) b25-ts_section_parser.$(OBJEXT)
-@STATIC_LIB_ONLY_FALSE@am_b25_OBJECTS = $(am__objects_2) \
-@STATIC_LIB_ONLY_FALSE@	b25-td.$(OBJEXT)
+am_b25_OBJECTS = $(am__objects_2) b25-td.$(OBJEXT)
 b25_OBJECTS = $(am_b25_OBJECTS)
-@STATIC_LIB_ONLY_FALSE@b25_DEPENDENCIES = $(am__DEPENDENCIES_2)
+b25_DEPENDENCIES = $(am__DEPENDENCIES_2)
 b25_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) \
 	$(LIBTOOLFLAGS) --mode=link $(CCLD) $(b25_CFLAGS) $(CFLAGS) \
 	$(AM_LDFLAGS) $(LDFLAGS) -o $@
@@ -190,7 +185,7 @@ am__v_CCLD_ = $(am__v_CCLD_@AM_DEFAULT_V@)
 am__v_CCLD_0 = @echo "  CCLD    " $@;
 am__v_CCLD_1 = 
 SOURCES = $(libarib25_la_SOURCES) $(b25_SOURCES)
-DIST_SOURCES = $(libarib25_la_SOURCES) $(am__b25_SOURCES_DIST)
+DIST_SOURCES = $(libarib25_la_SOURCES) $(b25_SOURCES)
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
     n|no|NO) false;; \
@@ -351,18 +346,16 @@ ARIB25_SRCS = arib_std_b25.c b_cas_card.c multi2.c ts_section_parser.c
 ARIB25_CPPFLAGS = -Wall -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 $(PCSCLITE_CFLAGS)
 ARIB25_LIBADD = $(PCSCLITE_LIBS)
 ARIB25_CFLAGS = -O2 -g -fPIC
-@STATIC_LIB_ONLY_TRUE@noinst_LTLIBRARIES = libarib25.la
-@STATIC_LIB_ONLY_FALSE@libarib25_la_LIBADD = $(ARIB25_LIBADD)
-@STATIC_LIB_ONLY_TRUE@libarib25_la_LIBADD = $(ARIB25_LIBADD)
-@STATIC_LIB_ONLY_TRUE@libarib25_la_LDFLAGS = -static
-@STATIC_LIB_ONLY_FALSE@lib_LTLIBRARIES = libarib25.la
+@INSTALL_LIBARIB25_TRUE@lib_LTLIBRARIES = libarib25.la
+@INSTALL_LIBARIB25_FALSE@noinst_LTLIBRARIES = libarib25.la
+libarib25_la_LIBADD = $(ARIB25_LIBADD)
 libarib25_la_SOURCES = $(ARIB25_SRCS)
 libarib25_la_CFLAGS = $(ARIB25_CFLAGS)
 libarib25_la_CPPFLAGS = $(ARIB25_CPPFLAGS)
-@STATIC_LIB_ONLY_FALSE@b25_SOURCES = $(ARIB25_SRCS) td.c 
-@STATIC_LIB_ONLY_FALSE@b25_CFLAGS = $(ARIB25_CFLAGS)
-@STATIC_LIB_ONLY_FALSE@b25_CPPFLAGS = $(ARIB25_CPPFLAGS)
-@STATIC_LIB_ONLY_FALSE@b25_LDADD = $(ARIB25_LIBADD)
+b25_SOURCES = $(ARIB25_SRCS) td.c 
+b25_CFLAGS = $(ARIB25_CFLAGS)
+b25_CPPFLAGS = $(ARIB25_CPPFLAGS)
+b25_LDADD = $(ARIB25_LIBADD)
 all: all-am
 
 .SUFFIXES:
@@ -489,6 +482,15 @@ uninstall-binPROGRAMS:
 
 clean-binPROGRAMS:
 	@list='$(bin_PROGRAMS)'; test -n "$$list" || exit 0; \
+	echo " rm -f" $$list; \
+	rm -f $$list || exit $$?; \
+	test -n "$(EXEEXT)" || exit 0; \
+	list=`for p in $$list; do echo "$$p"; done | sed 's/$(EXEEXT)$$//'`; \
+	echo " rm -f" $$list; \
+	rm -f $$list
+
+clean-noinstPROGRAMS:
+	@list='$(noinst_PROGRAMS)'; test -n "$$list" || exit 0; \
 	echo " rm -f" $$list; \
 	rm -f $$list || exit $$?; \
 	test -n "$(EXEEXT)" || exit 0; \
@@ -765,7 +767,8 @@ maintainer-clean-generic:
 clean: clean-am
 
 clean-am: clean-binPROGRAMS clean-generic clean-libLTLIBRARIES \
-	clean-libtool clean-noinstLTLIBRARIES mostlyclean-am
+	clean-libtool clean-noinstLTLIBRARIES clean-noinstPROGRAMS \
+	mostlyclean-am
 
 distclean: distclean-am
 	-rm -rf ./$(DEPDIR)
@@ -837,19 +840,20 @@ uninstall-am: uninstall-binPROGRAMS uninstall-libLTLIBRARIES
 
 .PHONY: CTAGS GTAGS TAGS all all-am check check-am clean \
 	clean-binPROGRAMS clean-generic clean-libLTLIBRARIES \
-	clean-libtool clean-noinstLTLIBRARIES cscopelist-am ctags \
-	ctags-am distclean distclean-compile distclean-generic \
-	distclean-libtool distclean-tags distdir dvi dvi-am html \
-	html-am info info-am install install-am install-binPROGRAMS \
-	install-data install-data-am install-dvi install-dvi-am \
-	install-exec install-exec-am install-html install-html-am \
-	install-info install-info-am install-libLTLIBRARIES \
-	install-man install-pdf install-pdf-am install-ps \
-	install-ps-am install-strip installcheck installcheck-am \
-	installdirs maintainer-clean maintainer-clean-generic \
-	mostlyclean mostlyclean-compile mostlyclean-generic \
-	mostlyclean-libtool pdf pdf-am ps ps-am tags tags-am uninstall \
-	uninstall-am uninstall-binPROGRAMS uninstall-libLTLIBRARIES
+	clean-libtool clean-noinstLTLIBRARIES clean-noinstPROGRAMS \
+	cscopelist-am ctags ctags-am distclean distclean-compile \
+	distclean-generic distclean-libtool distclean-tags distdir dvi \
+	dvi-am html html-am info info-am install install-am \
+	install-binPROGRAMS install-data install-data-am install-dvi \
+	install-dvi-am install-exec install-exec-am install-html \
+	install-html-am install-info install-info-am \
+	install-libLTLIBRARIES install-man install-pdf install-pdf-am \
+	install-ps install-ps-am install-strip installcheck \
+	installcheck-am installdirs maintainer-clean \
+	maintainer-clean-generic mostlyclean mostlyclean-compile \
+	mostlyclean-generic mostlyclean-libtool pdf pdf-am ps ps-am \
+	tags tags-am uninstall uninstall-am uninstall-binPROGRAMS \
+	uninstall-libLTLIBRARIES
 
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.

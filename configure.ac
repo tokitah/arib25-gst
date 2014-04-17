@@ -43,13 +43,21 @@ AC_CHECK_FUNCS([gettimeofday memset])
 LT_PREREQ([2.2.6])
 LT_INIT
 
-AC_ARG_ENABLE([static-lib-only],
-  [AS_HELP_STRING([--enable-static-lib-only],
-    [build only static library. [default=no]])],
-  [static_lib_only="${enableval}"],
-  [static_lib_only=no]
+AC_ARG_ENABLE([install-libarib25],
+  [AS_HELP_STRING([--enable-install-libarib25],
+    [Install libarib25 library. [default=yes]])],
+  [install_libarib25="${enableval}"],
+  [install_libarib25=yes]
 )
-AM_CONDITIONAL([STATIC_LIB_ONLY],[test x$static_lib_only != xno])
+AM_CONDITIONAL([INSTALL_LIBARIB25],[test x$install_libarib25 != xno])
+
+AC_ARG_ENABLE([install-b25],
+  [AS_HELP_STRING([--enable-install-b25],
+    [Install b25 command. [default=yes]])],
+  [install_b25="${enableval}"],
+  [install_b25=yes]
+)
+AM_CONDITIONAL([INSTALL_B25],[test x$install_b25 != xno])
 
 
 AC_CHECK_PROG(HAVE_PKGCONFIG, pkg-config, [ ], [

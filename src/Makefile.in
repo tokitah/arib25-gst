@@ -79,6 +79,7 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
+@INSTALL_LIBARIB25_FALSE@am__append_1 = -static
 @INSTALL_LIBARIB25_TRUE@bin_PROGRAMS = b25$(EXEEXT)
 @INSTALL_LIBARIB25_FALSE@noinst_PROGRAMS = b25$(EXEEXT)
 subdir = src
@@ -138,7 +139,7 @@ am__v_lt_0 = --silent
 am__v_lt_1 = 
 libarib25_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) \
 	$(LIBTOOLFLAGS) --mode=link $(CCLD) $(libarib25_la_CFLAGS) \
-	$(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
+	$(CFLAGS) $(libarib25_la_LDFLAGS) $(LDFLAGS) -o $@
 @INSTALL_LIBARIB25_FALSE@am_libarib25_la_rpath =
 @INSTALL_LIBARIB25_TRUE@am_libarib25_la_rpath = -rpath $(libdir)
 PROGRAMS = $(bin_PROGRAMS) $(noinst_PROGRAMS)
@@ -346,9 +347,11 @@ ARIB25_SRCS = arib_std_b25.c b_cas_card.c multi2.c ts_section_parser.c
 ARIB25_CPPFLAGS = -Wall -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 $(PCSCLITE_CFLAGS)
 ARIB25_LIBADD = $(PCSCLITE_LIBS)
 ARIB25_CFLAGS = -O2 -g -fPIC
+LIBARIB25_LDFLAGS = $(am__append_1)
 @INSTALL_LIBARIB25_TRUE@lib_LTLIBRARIES = libarib25.la
 @INSTALL_LIBARIB25_FALSE@noinst_LTLIBRARIES = libarib25.la
 libarib25_la_LIBADD = $(ARIB25_LIBADD)
+libarib25_la_LDFLAGS = $(LIBARIB25_LDFLAGS)
 libarib25_la_SOURCES = $(ARIB25_SRCS)
 libarib25_la_CFLAGS = $(ARIB25_CFLAGS)
 libarib25_la_CPPFLAGS = $(ARIB25_CPPFLAGS)

@@ -109,10 +109,10 @@ gst_b25specverifier_class_init (GstB25SpecVerifierClass * klass)
           G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
 
   gst_element_class_set_details_simple(gstelement_class,
-    "ARIB-STD-B25 SpecVerifierr.",
+    "ARIB-STD-B25 specification verification.",
     "Filter/Video",
-    "SpecVerifier ARIB-STD-B25 scrambled TS stream.",
-    "nanashi@example.com");
+    "Specification verification ARIB-STD-B25 scrambled TS stream.",
+    "tokita.hiroshi@gmail.com");
 
   gst_element_class_add_pad_template (gstelement_class,
       gst_static_pad_template_get (&src_factory));
@@ -421,10 +421,10 @@ plugin_init (GstPlugin * plugin)
    *
    * exchange the string 'Template plugin' with your description
    */
-  GST_DEBUG_CATEGORY_INIT (gst_b25specverifier_debug, "b25specverifier",
-      0, "ARIB-STD-B25 specification verifier plugin");
+  GST_DEBUG_CATEGORY_INIT (gst_b25specverifier_debug, "arib-std-b25",
+      0, "ARIB-STD-B25 specification verification plugin");
 
-  return gst_element_register (plugin, "b25specverifier", GST_RANK_NONE,
+  return gst_element_register (plugin, "arib-std-b25", GST_RANK_NONE,
       GST_TYPE_B25SPECVERIFIER);
 }
 
@@ -434,7 +434,7 @@ plugin_init (GstPlugin * plugin)
  * compile this code. GST_PLUGIN_DEFINE needs PACKAGE to be defined.
  */
 #ifndef PACKAGE
-#define PACKAGE "b25specverifier"
+#define PACKAGE "arib-std-b25"
 #endif
 
 /* 
@@ -443,11 +443,11 @@ plugin_init (GstPlugin * plugin)
 GST_PLUGIN_DEFINE (
     GST_VERSION_MAJOR,
     GST_VERSION_MINOR,
-    b25specverifier,
-    "ARIB-STD-B25 spec-verification plugin",
+    arib25,
+    "ARIB-STD-B25 specification verification plugin",
     plugin_init,
     VERSION,
     GST_LICENSE_UNKNOWN,
-    "GStreamer pluggable ARIB STD-B25 spec-verification program.",
-    "http://example.com/"
+    "GStreamer pluggable ARIB STD-B25 specification verification program.",
+    "https://github.com/tokitah/arib25-gst"
 )

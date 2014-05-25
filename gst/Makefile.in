@@ -123,18 +123,19 @@ am__uninstall_files_from_dir = { \
 am__installdirs = "$(DESTDIR)$(plugindir)"
 LTLIBRARIES = $(plugin_LTLIBRARIES)
 am__DEPENDENCIES_1 =
-libarib25gst_la_DEPENDENCIES = $(am__DEPENDENCIES_1) \
-	$(top_srcdir)/src/libarib25.la
-am_libarib25gst_la_OBJECTS = libarib25gst_la-gstb25specverifier.lo
-libarib25gst_la_OBJECTS = $(am_libarib25gst_la_OBJECTS)
+libarib25specverifier_la_DEPENDENCIES = $(am__DEPENDENCIES_1)
+am_libarib25specverifier_la_OBJECTS =  \
+	libarib25specverifier_la-gstb25specverifier.lo
+libarib25specverifier_la_OBJECTS =  \
+	$(am_libarib25specverifier_la_OBJECTS)
 AM_V_lt = $(am__v_lt_@AM_V@)
 am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
 am__v_lt_0 = --silent
 am__v_lt_1 = 
-libarib25gst_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC \
-	$(libarib25gst_la_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link \
-	$(CCLD) $(libarib25gst_la_CFLAGS) $(CFLAGS) \
-	$(libarib25gst_la_LDFLAGS) $(LDFLAGS) -o $@
+libarib25specverifier_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC \
+	$(libarib25specverifier_la_LIBTOOLFLAGS) $(LIBTOOLFLAGS) \
+	--mode=link $(CCLD) $(libarib25specverifier_la_CFLAGS) \
+	$(CFLAGS) $(libarib25specverifier_la_LDFLAGS) $(LDFLAGS) -o $@
 AM_V_P = $(am__v_P_@AM_V@)
 am__v_P_ = $(am__v_P_@AM_DEFAULT_V@)
 am__v_P_0 = false
@@ -169,8 +170,8 @@ AM_V_CCLD = $(am__v_CCLD_@AM_V@)
 am__v_CCLD_ = $(am__v_CCLD_@AM_DEFAULT_V@)
 am__v_CCLD_0 = @echo "  CCLD    " $@;
 am__v_CCLD_1 = 
-SOURCES = $(libarib25gst_la_SOURCES)
-DIST_SOURCES = $(libarib25gst_la_SOURCES)
+SOURCES = $(libarib25specverifier_la_SOURCES)
+DIST_SOURCES = $(libarib25specverifier_la_SOURCES)
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
     n|no|NO) false;; \
@@ -231,7 +232,6 @@ GST_CFLAGS = @GST_CFLAGS@
 GST_LIBS = @GST_LIBS@
 GST_PLUGIN_LDFLAGS = @GST_PLUGIN_LDFLAGS@
 GST_PLUGIN_LIBTOOLFLAGS = @GST_PLUGIN_LIBTOOLFLAGS@
-HAVE_PKGCONFIG = @HAVE_PKGCONFIG@
 INSTALL = @INSTALL@
 INSTALL_DATA = @INSTALL_DATA@
 INSTALL_PROGRAM = @INSTALL_PROGRAM@
@@ -262,13 +262,9 @@ PACKAGE_TARNAME = @PACKAGE_TARNAME@
 PACKAGE_URL = @PACKAGE_URL@
 PACKAGE_VERSION = @PACKAGE_VERSION@
 PATH_SEPARATOR = @PATH_SEPARATOR@
-PCSCLITE_CFLAGS = @PCSCLITE_CFLAGS@
-PCSCLITE_LIBS = @PCSCLITE_LIBS@
 PKG_CONFIG = @PKG_CONFIG@
 PKG_CONFIG_LIBDIR = @PKG_CONFIG_LIBDIR@
 PKG_CONFIG_PATH = @PKG_CONFIG_PATH@
-PSCSLITE_CFLAGS = @PSCSLITE_CFLAGS@
-PSCSLITE_LIBS = @PSCSLITE_LIBS@
 RANLIB = @RANLIB@
 SED = @SED@
 SET_MAKE = @SET_MAKE@
@@ -329,16 +325,16 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 plugindir = `pkg-config --variable=pluginsdir gstreamer-1.0`
-plugin_LTLIBRARIES = libarib25gst.la
+plugin_LTLIBRARIES = libarib25specverifier.la
 
 # sources used to compile this plug-in
-libarib25gst_la_SOURCES = gstb25specverifier.c gstb25specverifier.h
+libarib25specverifier_la_SOURCES = gstb25specverifier.c gstb25specverifier.h
 
 # compiler and linker flags used to compile this plugin, set in configure.ac
-libarib25gst_la_CFLAGS = $(GST_CFLAGS) -I$(top_srcdir)/src
-libarib25gst_la_LIBADD = $(GST_LIBS) $(top_srcdir)/src/libarib25.la
-libarib25gst_la_LDFLAGS = $(GST_PLUGIN_LDFLAGS) -L$(top_srcdir)/src/.libs/
-libarib25gst_la_LIBTOOLFLAGS = $(GST_PLUGIN_LIBTOOLFLAGS)
+libarib25specverifier_la_CFLAGS = $(GST_CFLAGS)
+libarib25specverifier_la_LIBADD = $(GST_LIBS) -larib25
+libarib25specverifier_la_LDFLAGS = $(GST_PLUGIN_LDFLAGS)
+libarib25specverifier_la_LIBTOOLFLAGS = $(GST_PLUGIN_LIBTOOLFLAGS)
 
 # headers we need but don't want installed
 noinst_HEADERS = gstb25specverifier.h
@@ -412,8 +408,8 @@ clean-pluginLTLIBRARIES:
 	  rm -f $${locs}; \
 	}
 
-libarib25gst.la: $(libarib25gst_la_OBJECTS) $(libarib25gst_la_DEPENDENCIES) $(EXTRA_libarib25gst_la_DEPENDENCIES) 
-	$(AM_V_CCLD)$(libarib25gst_la_LINK) -rpath $(plugindir) $(libarib25gst_la_OBJECTS) $(libarib25gst_la_LIBADD) $(LIBS)
+libarib25specverifier.la: $(libarib25specverifier_la_OBJECTS) $(libarib25specverifier_la_DEPENDENCIES) $(EXTRA_libarib25specverifier_la_DEPENDENCIES) 
+	$(AM_V_CCLD)$(libarib25specverifier_la_LINK) -rpath $(plugindir) $(libarib25specverifier_la_OBJECTS) $(libarib25specverifier_la_LIBADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
@@ -421,7 +417,7 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libarib25gst_la-gstb25specverifier.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libarib25specverifier_la-gstb25specverifier.Plo@am__quote@
 
 .c.o:
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(COMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
@@ -444,12 +440,12 @@ distclean-compile:
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LTCOMPILE) -c -o $@ $<
 
-libarib25gst_la-gstb25specverifier.lo: gstb25specverifier.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(libarib25gst_la_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libarib25gst_la_CFLAGS) $(CFLAGS) -MT libarib25gst_la-gstb25specverifier.lo -MD -MP -MF $(DEPDIR)/libarib25gst_la-gstb25specverifier.Tpo -c -o libarib25gst_la-gstb25specverifier.lo `test -f 'gstb25specverifier.c' || echo '$(srcdir)/'`gstb25specverifier.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libarib25gst_la-gstb25specverifier.Tpo $(DEPDIR)/libarib25gst_la-gstb25specverifier.Plo
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='gstb25specverifier.c' object='libarib25gst_la-gstb25specverifier.lo' libtool=yes @AMDEPBACKSLASH@
+libarib25specverifier_la-gstb25specverifier.lo: gstb25specverifier.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(libarib25specverifier_la_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libarib25specverifier_la_CFLAGS) $(CFLAGS) -MT libarib25specverifier_la-gstb25specverifier.lo -MD -MP -MF $(DEPDIR)/libarib25specverifier_la-gstb25specverifier.Tpo -c -o libarib25specverifier_la-gstb25specverifier.lo `test -f 'gstb25specverifier.c' || echo '$(srcdir)/'`gstb25specverifier.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libarib25specverifier_la-gstb25specverifier.Tpo $(DEPDIR)/libarib25specverifier_la-gstb25specverifier.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='gstb25specverifier.c' object='libarib25specverifier_la-gstb25specverifier.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(libarib25gst_la_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libarib25gst_la_CFLAGS) $(CFLAGS) -c -o libarib25gst_la-gstb25specverifier.lo `test -f 'gstb25specverifier.c' || echo '$(srcdir)/'`gstb25specverifier.c
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(libarib25specverifier_la_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libarib25specverifier_la_CFLAGS) $(CFLAGS) -c -o libarib25specverifier_la-gstb25specverifier.lo `test -f 'gstb25specverifier.c' || echo '$(srcdir)/'`gstb25specverifier.c
 
 mostlyclean-libtool:
 	-rm -f *.lo
@@ -664,11 +660,6 @@ uninstall-am: uninstall-pluginLTLIBRARIES
 	pdf pdf-am ps ps-am tags tags-am uninstall uninstall-am \
 	uninstall-pluginLTLIBRARIES
 
-
-FORCE:
-
-$(top_srcdir)/src/libarib25.la: FORCE
-	( cd $(top_srcdir)/src && $(MAKE) $(AM_MAKEFLAGS) libarib25.la )
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

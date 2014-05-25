@@ -637,20 +637,11 @@ am__EXEEXT_TRUE
 LTLIBOBJS
 GST_LIBS
 GST_CFLAGS
-GST_PLUGIN_LIBTOOLFLAGS
-GST_PLUGIN_LDFLAGS
-PSCSLITE_LIBS
-PSCSLITE_CFLAGS
-PCSCLITE_LIBS
-PCSCLITE_CFLAGS
 PKG_CONFIG_LIBDIR
 PKG_CONFIG_PATH
 PKG_CONFIG
-HAVE_PKGCONFIG
-INSTALL_B25_FALSE
-INSTALL_B25_TRUE
-INSTALL_LIBARIB25_FALSE
-INSTALL_LIBARIB25_TRUE
+GST_PLUGIN_LIBTOOLFLAGS
+GST_PLUGIN_LDFLAGS
 CXXCPP
 OTOOL64
 OTOOL
@@ -776,6 +767,8 @@ ac_user_opts='
 enable_option_checking
 enable_silent_rules
 enable_dependency_tracking
+with_arib25_includedir
+with_arib25_libdir
 enable_shared
 enable_static
 with_pic
@@ -783,8 +776,6 @@ enable_fast_install
 with_gnu_ld
 with_sysroot
 enable_libtool_lock
-enable_install_libarib25
-enable_install_b25
 '
       ac_precious_vars='build_alias
 host_alias
@@ -802,8 +793,6 @@ CXXCPP
 PKG_CONFIG
 PKG_CONFIG_PATH
 PKG_CONFIG_LIBDIR
-PCSCLITE_CFLAGS
-PCSCLITE_LIBS
 GST_CFLAGS
 GST_LIBS'
 
@@ -1436,13 +1425,14 @@ Optional Features:
   --enable-fast-install[=PKGS]
                           optimize for fast installation [default=yes]
   --disable-libtool-lock  avoid locking (might break parallel builds)
-  --enable-install-libarib25
-                          Install libarib25 library. [default=yes]
-  --enable-install-b25    Install b25 command. [default=yes]
 
 Optional Packages:
   --with-PACKAGE[=ARG]    use PACKAGE [ARG=yes]
   --without-PACKAGE       do not use PACKAGE (same as --with-PACKAGE=no)
+   --with-arib25-includedir[=PATH]
+                          arib25 header path
+   --with-arib25-libdir[=PATH]
+                          arib25 library path
   --with-pic[=PKGS]       try to use only PIC/non-PIC objects [default=use
                           both]
   --with-gnu-ld           assume the C compiler uses GNU ld [default=no]
@@ -1466,10 +1456,6 @@ Some influential environment variables:
               directories to add to pkg-config's search path
   PKG_CONFIG_LIBDIR
               path overriding pkg-config's built-in search path
-  PCSCLITE_CFLAGS
-              C compiler flags for PCSCLITE, overriding pkg-config
-  PCSCLITE_LIBS
-              linker flags for PCSCLITE, overriding pkg-config
   GST_CFLAGS  C compiler flags for GST, overriding pkg-config
   GST_LIBS    linker flags for GST, overriding pkg-config
 
@@ -3119,6 +3105,7 @@ END
     as_fn_error $? "Your 'rm' program is bad, sorry." "$LINENO" 5
   fi
 fi
+
 
 # Checks for programs.
 ac_ext=cpp
@@ -5226,6 +5213,85 @@ if eval test \"x\$"$as_ac_var"\" = x"yes"; then :
 _ACEOF
 
 fi
+done
+
+
+
+# Check whether --with-arib25-includedir was given.
+if test "${with_arib25_includedir+set}" = set; then :
+  withval=$with_arib25_includedir;  CFLAGS="$CFLAGS -I$withval"
+
+            # TODO: Is any good default handling available?
+
+fi
+
+
+# Check whether --with-arib25-libdir was given.
+if test "${with_arib25_libdir+set}" = set; then :
+  withval=$with_arib25_libdir;  LDFLAGS="$LDFLAGS -L$withval"
+
+            # TODO: Is any good default handling available?
+
+fi
+
+
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for create_arib_std_b25 in -larib25" >&5
+$as_echo_n "checking for create_arib_std_b25 in -larib25... " >&6; }
+if ${ac_cv_lib_arib25_create_arib_std_b25+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  ac_check_lib_save_LIBS=$LIBS
+LIBS="-larib25  $LIBS"
+cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+/* Override any GCC internal prototype to avoid an error.
+   Use char because int might match the return type of a GCC
+   builtin and then its argument prototype would still apply.  */
+#ifdef __cplusplus
+extern "C"
+#endif
+char create_arib_std_b25 ();
+int
+main ()
+{
+return create_arib_std_b25 ();
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_c_try_link "$LINENO"; then :
+  ac_cv_lib_arib25_create_arib_std_b25=yes
+else
+  ac_cv_lib_arib25_create_arib_std_b25=no
+fi
+rm -f core conftest.err conftest.$ac_objext \
+    conftest$ac_exeext conftest.$ac_ext
+LIBS=$ac_check_lib_save_LIBS
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_lib_arib25_create_arib_std_b25" >&5
+$as_echo "$ac_cv_lib_arib25_create_arib_std_b25" >&6; }
+if test "x$ac_cv_lib_arib25_create_arib_std_b25" = xyes; then :
+  cat >>confdefs.h <<_ACEOF
+#define HAVE_LIBARIB25 1
+_ACEOF
+
+  LIBS="-larib25 $LIBS"
+
+fi
+
+for ac_header in arib_std_b25.h
+do :
+  ac_fn_c_check_header_mongrel "$LINENO" "arib_std_b25.h" "ac_cv_header_arib_std_b25_h" "$ac_includes_default"
+if test "x$ac_cv_header_arib_std_b25_h" = xyes; then :
+  cat >>confdefs.h <<_ACEOF
+#define HAVE_ARIB_STD_B25_H 1
+_ACEOF
+
+else
+  as_fn_error $? "No arib25 headers." "$LINENO" 5
+fi
+
 done
 
 
@@ -15619,79 +15685,29 @@ ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 
 
-# Check whether --enable-install-libarib25 was given.
-if test "${enable_install_libarib25+set}" = set; then :
-  enableval=$enable_install_libarib25; install_libarib25="${enableval}"
-else
-  install_libarib25=yes
+# =======================================================================
+# Check for the required version of GStreamer core (and gst-plugins-base)
+#
+# This will export GST_CFLAGS and GST_LIBS variables for use in Makefile.am
+#
+# If you need libraries from gst-plugins-base here, also add:
+# for libgstaudio-1.0: gstreamer-audio-1.0 >= $GST_REQUIRED
+# for libgstvideo-1.0: gstreamer-video-1.0 >= $GST_REQUIRED
+# for libgsttag-1.0: gstreamer-tag-1.0 >= $GST_REQUIRED
+# for libgstpbutils-1.0: gstreamer-pbutils-1.0 >= $GST_REQUIRED
+# for libgstfft-1.0: gstreamer-fft-1.0 >= $GST_REQUIRED
+# for libgstinterfaces-1.0: gstreamer-interfaces-1.0 >= $GST_REQUIRED
+# for libgstrtp-1.0: gstreamer-rtp-1.0 >= $GST_REQUIRED
+# for libgstrtsp-1.0: gstreamer-rtsp-1.0 >= $GST_REQUIRED
+# etc.
+# =======================================================================
 
-fi
+GST_REQUIRED=1.0.0
 
- if test x$install_libarib25 != xno; then
-  INSTALL_LIBARIB25_TRUE=
-  INSTALL_LIBARIB25_FALSE='#'
-else
-  INSTALL_LIBARIB25_TRUE='#'
-  INSTALL_LIBARIB25_FALSE=
-fi
-
-
-# Check whether --enable-install-b25 was given.
-if test "${enable_install_b25+set}" = set; then :
-  enableval=$enable_install_b25; install_b25="${enableval}"
-else
-  install_b25=yes
-
-fi
-
- if test x$install_b25 != xno; then
-  INSTALL_B25_TRUE=
-  INSTALL_B25_FALSE='#'
-else
-  INSTALL_B25_TRUE='#'
-  INSTALL_B25_FALSE=
-fi
+GST_PLUGIN_LDFLAGS="-module -avoid-version -export-symbols-regex '^_*gst_plugin_.*' $GST_ALL_LDFLAGS"
 
 
-
-# Extract the first word of "pkg-config", so it can be a program name with args.
-set dummy pkg-config; ac_word=$2
-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
-$as_echo_n "checking for $ac_word... " >&6; }
-if ${ac_cv_prog_HAVE_PKGCONFIG+:} false; then :
-  $as_echo_n "(cached) " >&6
-else
-  if test -n "$HAVE_PKGCONFIG"; then
-  ac_cv_prog_HAVE_PKGCONFIG="$HAVE_PKGCONFIG" # Let the user override the test.
-else
-as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
-for as_dir in $PATH
-do
-  IFS=$as_save_IFS
-  test -z "$as_dir" && as_dir=.
-    for ac_exec_ext in '' $ac_executable_extensions; do
-  if as_fn_executable_p "$as_dir/$ac_word$ac_exec_ext"; then
-    ac_cv_prog_HAVE_PKGCONFIG=" "
-    $as_echo "$as_me:${as_lineno-$LINENO}: found $as_dir/$ac_word$ac_exec_ext" >&5
-    break 2
-  fi
-done
-  done
-IFS=$as_save_IFS
-
-  test -z "$ac_cv_prog_HAVE_PKGCONFIG" && ac_cv_prog_HAVE_PKGCONFIG="
-  as_fn_error $? "You need to have pkg-config installed!" "$LINENO" 5
-"
-fi
-fi
-HAVE_PKGCONFIG=$ac_cv_prog_HAVE_PKGCONFIG
-if test -n "$HAVE_PKGCONFIG"; then
-  { $as_echo "$as_me:${as_lineno-$LINENO}: result: $HAVE_PKGCONFIG" >&5
-$as_echo "$HAVE_PKGCONFIG" >&6; }
-else
-  { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
-$as_echo "no" >&6; }
-fi
+GST_PLUGIN_LIBTOOLFLAGS="--tag=disable-static"
 
 
 
@@ -15815,131 +15831,6 @@ $as_echo "no" >&6; }
 		PKG_CONFIG=""
 	fi
 fi
-
-pkg_failed=no
-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for PCSCLITE" >&5
-$as_echo_n "checking for PCSCLITE... " >&6; }
-
-if test -n "$PCSCLITE_CFLAGS"; then
-    pkg_cv_PCSCLITE_CFLAGS="$PCSCLITE_CFLAGS"
- elif test -n "$PKG_CONFIG"; then
-    if test -n "$PKG_CONFIG" && \
-    { { $as_echo "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"
-  libpcsclite >= PCSCLITE_REQUIRED
-\""; } >&5
-  ($PKG_CONFIG --exists --print-errors "
-  libpcsclite >= PCSCLITE_REQUIRED
-") 2>&5
-  ac_status=$?
-  $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
-  test $ac_status = 0; }; then
-  pkg_cv_PCSCLITE_CFLAGS=`$PKG_CONFIG --cflags "
-  libpcsclite >= PCSCLITE_REQUIRED
-" 2>/dev/null`
-		      test "x$?" != "x0" && pkg_failed=yes
-else
-  pkg_failed=yes
-fi
- else
-    pkg_failed=untried
-fi
-if test -n "$PCSCLITE_LIBS"; then
-    pkg_cv_PCSCLITE_LIBS="$PCSCLITE_LIBS"
- elif test -n "$PKG_CONFIG"; then
-    if test -n "$PKG_CONFIG" && \
-    { { $as_echo "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"
-  libpcsclite >= PCSCLITE_REQUIRED
-\""; } >&5
-  ($PKG_CONFIG --exists --print-errors "
-  libpcsclite >= PCSCLITE_REQUIRED
-") 2>&5
-  ac_status=$?
-  $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
-  test $ac_status = 0; }; then
-  pkg_cv_PCSCLITE_LIBS=`$PKG_CONFIG --libs "
-  libpcsclite >= PCSCLITE_REQUIRED
-" 2>/dev/null`
-		      test "x$?" != "x0" && pkg_failed=yes
-else
-  pkg_failed=yes
-fi
- else
-    pkg_failed=untried
-fi
-
-
-
-if test $pkg_failed = yes; then
-   	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
-$as_echo "no" >&6; }
-
-if $PKG_CONFIG --atleast-pkgconfig-version 0.20; then
-        _pkg_short_errors_supported=yes
-else
-        _pkg_short_errors_supported=no
-fi
-        if test $_pkg_short_errors_supported = yes; then
-	        PCSCLITE_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "
-  libpcsclite >= PCSCLITE_REQUIRED
-" 2>&1`
-        else
-	        PCSCLITE_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "
-  libpcsclite >= PCSCLITE_REQUIRED
-" 2>&1`
-        fi
-	# Put the nasty error message in config.log where it belongs
-	echo "$PCSCLITE_PKG_ERRORS" >&5
-
-
-  as_fn_error $? "
-    Missing libpcsclite.
-  " "$LINENO" 5
-
-elif test $pkg_failed = untried; then
-     	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
-$as_echo "no" >&6; }
-
-  as_fn_error $? "
-    Missing libpcsclite.
-  " "$LINENO" 5
-
-else
-	PCSCLITE_CFLAGS=$pkg_cv_PCSCLITE_CFLAGS
-	PCSCLITE_LIBS=$pkg_cv_PCSCLITE_LIBS
-        { $as_echo "$as_me:${as_lineno-$LINENO}: result: yes" >&5
-$as_echo "yes" >&6; }
-
-
-
-
-fi
-
-# =======================================================================
-# Check for the required version of GStreamer core (and gst-plugins-base)
-#
-# This will export GST_CFLAGS and GST_LIBS variables for use in Makefile.am
-#
-# If you need libraries from gst-plugins-base here, also add:
-# for libgstaudio-1.0: gstreamer-audio-1.0 >= $GST_REQUIRED
-# for libgstvideo-1.0: gstreamer-video-1.0 >= $GST_REQUIRED
-# for libgsttag-1.0: gstreamer-tag-1.0 >= $GST_REQUIRED
-# for libgstpbutils-1.0: gstreamer-pbutils-1.0 >= $GST_REQUIRED
-# for libgstfft-1.0: gstreamer-fft-1.0 >= $GST_REQUIRED
-# for libgstinterfaces-1.0: gstreamer-interfaces-1.0 >= $GST_REQUIRED
-# for libgstrtp-1.0: gstreamer-rtp-1.0 >= $GST_REQUIRED
-# for libgstrtsp-1.0: gstreamer-rtsp-1.0 >= $GST_REQUIRED
-# etc.
-# =======================================================================
-
-GST_REQUIRED=1.0.0
-
-GST_PLUGIN_LDFLAGS="-module -avoid-version -export-symbols-regex '^_*gst_plugin_.*' $GST_ALL_LDFLAGS"
-
-
-GST_PLUGIN_LIBTOOLFLAGS="--tag=disable-static"
-
-
-
 
 pkg_failed=no
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking for GST" >&5
@@ -16111,7 +16002,7 @@ $as_echo "no" >&6; }
 fi
 rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
 
-ac_config_files="$ac_config_files Makefile gst/Makefile src/Makefile"
+ac_config_files="$ac_config_files Makefile gst/Makefile"
 
 cat >confcache <<\_ACEOF
 # This file is a shell script that caches the results of configure
@@ -16248,14 +16139,6 @@ Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
 if test -z "${am__fastdepCC_TRUE}" && test -z "${am__fastdepCC_FALSE}"; then
   as_fn_error $? "conditional \"am__fastdepCC\" was never defined.
-Usually this means the macro was only invoked conditionally." "$LINENO" 5
-fi
-if test -z "${INSTALL_LIBARIB25_TRUE}" && test -z "${INSTALL_LIBARIB25_FALSE}"; then
-  as_fn_error $? "conditional \"INSTALL_LIBARIB25\" was never defined.
-Usually this means the macro was only invoked conditionally." "$LINENO" 5
-fi
-if test -z "${INSTALL_B25_TRUE}" && test -z "${INSTALL_B25_FALSE}"; then
-  as_fn_error $? "conditional \"INSTALL_B25\" was never defined.
 Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
 
@@ -17230,7 +17113,6 @@ do
     "libtool") CONFIG_COMMANDS="$CONFIG_COMMANDS libtool" ;;
     "Makefile") CONFIG_FILES="$CONFIG_FILES Makefile" ;;
     "gst/Makefile") CONFIG_FILES="$CONFIG_FILES gst/Makefile" ;;
-    "src/Makefile") CONFIG_FILES="$CONFIG_FILES src/Makefile" ;;
 
   *) as_fn_error $? "invalid argument: \`$ac_config_target'" "$LINENO" 5;;
   esac

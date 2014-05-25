@@ -1,0 +1,18 @@
+Source: arib25-gst
+Priority: optional
+Maintainer: TOKITA Hiroshi <tokita.hiroshi@gmail.com>
+Build-Depends: debhelper (>= 9.0.0), autotools-dev, libarib25-dev
+Standards-Version: 3.9.5
+Section: video
+Homepage: https://github.com/tokitah/arib25-gst.git
+#Vcs-Git: git://git.debian.org/collab-maint/arib25-gst.git
+#Vcs-Browser: http://git.debian.org/?p=collab-maint/arib25-gst.git;a=summary
+
+Package: arib25-gst
+Section: video
+Architecture: any
+Multi-Arch: same
+Pre-Depends: ${misc:Pre-Depends}
+Depends: ${shlibs:Depends}, ${misc:Depends}, libarib25
+Description: arib25 gstreamer plugin
+ hogehoge

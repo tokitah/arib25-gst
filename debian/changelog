@@ -1,0 +1,5 @@
+arib25-gst (1.0-1) trusty; urgency=low
+
+  * Initial release (Closes: #99999999)
+
+ -- TOKITA Hiroshi <tokita.hiroshi@gmail.com>  Sun, 25 May 2014 01:03:38 +0900

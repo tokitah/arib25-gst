@@ -1,0 +1,2 @@
+arib25-gst binary: postinst-has-useless-call-to-ldconfig
+arib25-gst binary: postrm-has-useless-call-to-ldconfig

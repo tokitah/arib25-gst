@@ -40,40 +40,24 @@ AC_TYPE_UINT8_T
 AC_FUNC_MALLOC
 AC_CHECK_FUNCS([gettimeofday memset])
 
+AC_ARG_WITH([arib25-includedir],
+            [ AS_HELP_STRING([--with-arib25-includedir@<:@=PATH@:>@],[arib25 header path]) ],
+            [ AC_SUBST(CFLAGS, "$CFLAGS -I$withval") ]
+            # TODO: Is any good default handling available?
+           )
+AC_ARG_WITH([arib25-libdir],
+            [ AS_HELP_STRING([--with-arib25-libdir@<:@=PATH@:>@],[arib25 library path]) ],
+            [ AC_SUBST(LDFLAGS, "$LDFLAGS -L$withval") ]
+            # TODO: Is any good default handling available?
+           )
+
+AC_CHECK_LIB(arib25, create_arib_std_b25)
+AC_CHECK_HEADERS([arib_std_b25.h],
+                 [],
+                 [AC_MSG_ERROR([No arib25 headers.])] )
+
 LT_PREREQ([2.2.6])
 LT_INIT
-
-AC_ARG_ENABLE([install-libarib25],
-  [AS_HELP_STRING([--enable-install-libarib25],
-    [Install libarib25 library. [default=yes]])],
-  [install_libarib25="${enableval}"],
-  [install_libarib25=yes]
-)
-AM_CONDITIONAL([INSTALL_LIBARIB25],[test x$install_libarib25 != xno])
-
-AC_ARG_ENABLE([install-b25],
-  [AS_HELP_STRING([--enable-install-b25],
-    [Install b25 command. [default=yes]])],
-  [install_b25="${enableval}"],
-  [install_b25=yes]
-)
-AM_CONDITIONAL([INSTALL_B25],[test x$install_b25 != xno])
-
-
-AC_CHECK_PROG(HAVE_PKGCONFIG, pkg-config, [ ], [
-  AC_MSG_ERROR([You need to have pkg-config installed!])
-])
-
-PKG_CHECK_MODULES(PCSCLITE, [
-  libpcsclite >= PCSCLITE_REQUIRED
-], [
-  AC_SUBST(PSCSLITE_CFLAGS)
-  AC_SUBST(PSCSLITE_LIBS)
-], [
-  AC_MSG_ERROR([
-    Missing libpcsclite.
-  ])
-])
 
 # =======================================================================
 # Check for the required version of GStreamer core (and gst-plugins-base)
@@ -139,6 +123,5 @@ AC_COMPILE_IFELSE([AC_LANG_PROGRAM([ ], [ ])], [
 ])
  
 AC_CONFIG_FILES([Makefile
-                 gst/Makefile
-                 src/Makefile])
+                 gst/Makefile])
 AC_OUTPUT

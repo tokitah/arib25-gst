@@ -1,3 +1,3 @@
-SUBDIRS = src gst
+SUBDIRS = gst
 
 ACLOCAL_AMFLAGS = -I m4

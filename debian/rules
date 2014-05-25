@@ -13,7 +13,7 @@ override_dh_install:
 	rm debian/arib25-gst/usr/lib/$(DEB_HOST_MULTIARCH)/gstreamer-1.0/*.la
 
 override_dh_shlibdeps:
-	dh_shlibdeps -- -xlibarib25-passthrough1
+	dh_shlibdeps -- -xlibarib25-passthrough1 --ignore-missing-info
 
 %:
 	dh $@  --with autotools-dev

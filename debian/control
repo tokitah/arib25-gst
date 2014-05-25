@@ -1,7 +1,7 @@
 Source: arib25-gst
 Priority: optional
 Maintainer: TOKITA Hiroshi <tokita.hiroshi@gmail.com>
-Build-Depends: debhelper (>= 9.0.0), autotools-dev, libarib25-dev
+Build-Depends: debhelper (>= 9.0.0), autotools-dev, libarib25-passthrough-dev|libarib25-installer , libgstreamer1.0-dev, libglib2.0-dev
 Standards-Version: 3.9.5
 Section: video
 Homepage: https://github.com/tokitah/arib25-gst.git
